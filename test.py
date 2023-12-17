@@ -21,6 +21,7 @@ def calc_stdev(var_list, mean):
         sum_variance += (num - mean)**2
         counter += 1
     stdev = math.sqrt(sum_variance / (counter-1))
+    return stdev
 
 
 def getx_values(data_ls):
@@ -54,23 +55,41 @@ def graph_polynomial(data_list):
     plt.plot(x_new, p(x_new))
 
 def graph_normal_distribution(data_list, yx_or_both):
-    y_data = []
     x_data = []
+    y_data = []
+    mean = 0
+    stdev = 0
 
-    for i in data_list:
-        y_data.append(data_list[i][1])
-        x_data.append(data_list[i][0])
+    for row in data_list:
+        x_data.append(int(row[0]))
+        y_data.append(int(row[1]))
 
-    if yx_or_both == 'y':
-        mean = calc_mean(y_data)
-
-
-    elif yx_or_both == 'x':
-        mean = calc_mean(x_data)
-
-    else:
+    if yx_or_both == 'yx':
         meanx = calc_mean(x_data)
         meany = calc_mean(y_data)
+        return
+
+    if yx_or_both == 'x':
+        mean += calc_mean(x_data)
+        stdev += calc_stdev(x_data, mean)
+
+    elif yx_or_both == 'y':
+        mean += calc_mean(y_data)
+        stdev += calc_stdev(y_data, mean)
+
+    # defining the domain of the plot
+    start = mean - (4*stdev)
+    end = mean + (4*stdev)
+
+    # getting x values and their corresponding probabilities using the normal function
+    x = np.linspace(start, end, 1000)
+    prob = norm.pdf(x, mean, stdev)
+
+    # plotting the results
+    plt.plot(x, prob, label=f"μ = {mean}, σ = {round(stdev, 3)}")
+    plt.legend()
+    plt.axvline(mean, ls='--', color='lightgray')
+
 
     
 
@@ -81,6 +100,9 @@ with (open('fakedata.csv', 'r') as csvfile):
     x_title = data_list[0][0]
     y_title = data_list[0][1]
     data_list.pop(0)
+    
+    
+    graph_normal_distribution(data_list, 'x')
 
 
 
