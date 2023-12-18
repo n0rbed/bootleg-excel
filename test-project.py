@@ -1,55 +1,68 @@
 import tkinter
 import tkinter.filedialog as fd
 
-root = tkinter.Tk()
-root.title("bootleg excel")
+def main():
+    root = tkinter.Tk()
+    root.title("bootleg excel")
 
-inputtxt = tkinter.Entry(root)
-inputtxt.pack()
+    inputtxt = tkinter.Entry(root)
+    inputtxt.pack()
 
-lbl_Gname = tkinter.Label(root, text = "graph name").pack()
-def store_Gname():
-    Gname = inputtxt.get()
-    return Gname
+    lbl_Gname = tkinter.Label(root, text = "graph name").pack()
+    filename = None
+    def store_Gname():
+        Gname = inputtxt.get()
+        return Gname
 
-def type():
-    final_choice = []
-    grid = CheckVar2.get()
-    scat = CheckVar1.get()
-    if grid != "":
-        final_choice.append(grid)
-    if scat != "":
-        final_choice.append(scat)
-    print(final_choice)
+    def type():
+        final_choice = []
+        grid = CheckVar2.get()
+        scat = CheckVar1.get()
+        if grid != "":
+            final_choice.append(grid)
+        if scat != "":
+            final_choice.append(scat)
+        print(final_choice)
 
-def upload():
-    filename = fd.askopenfilename()
-    return filename
+    def upload():
+        global filename
+        filename = fd.askopenfilename()
+        return
 
 # def theOnlyFuncIprobablyNeedToT():
 #     pass
 
-def validate():
-    #some required fields checked
-    if len(inputtxt.get()) != 0:
+    def validate():
+        #some required fields checked
+        if len(inputtxt.get()) != 0:
+            store_Gname()
+            type()
+        else:
+            pass
+            #gives error message
+
+    def submit():
         store_Gname()
         type()
-    else:
-        pass
-        #gives error message
+        validate()
+        root.destroy()
 
-B = tkinter.Button(root, text="upload", command=upload)
-B.pack()
+    file_upload = tkinter.Button(root, text="upload", command=upload)
+    file_upload.pack()
 
-CheckVar2 = tkinter.StringVar()
-CheckVar1 = tkinter.StringVar()
-A = tkinter.Checkbutton(root, text = "Grid", variable = CheckVar2, onvalue="grid", offvalue="")
-M = tkinter.Checkbutton(root, text = "scatterplot", variable = CheckVar1, onvalue="scatter", offvalue="")
+    CheckVar2 = tkinter.StringVar()
+    CheckVar1 = tkinter.StringVar()
+    grid_checkbox = tkinter.Checkbutton(root, text = "Grid", variable = CheckVar2, onvalue="grid", offvalue="")
+    scatter_checkbox = tkinter.Checkbutton(root, text = "scatterplot", variable = CheckVar1, onvalue="scatter", offvalue="")
 
-A.pack()
-M.pack()
+    grid_checkbox.pack()
+    scatter_checkbox.pack()
 
-Final_Button = tkinter.Button(root, text="submit", command=lambda:[store_Gname(), type(), validate()])
-Final_Button.pack()
+    Final_Button = tkinter.Button(root, text="submit", command=submit)
+    Final_Button.pack()
 
-tkinter.mainloop()
+    tkinter.mainloop()
+
+
+main()
+print(filename)
