@@ -15,14 +15,14 @@ def main():
         return Gname
 
     def type():
-        final_choice = []
+        global final_choice
+        final_choice = {'grid': False, 'scatter': False}
         grid = CheckVar2.get()
         scat = CheckVar1.get()
         if grid != "":
-            final_choice.append(grid)
+            final_choice['grid']= True
         if scat != "":
-            final_choice.append(scat)
-        print(final_choice)
+            final_choice['scatter'] = True
 
     def upload():
         global filename
@@ -66,3 +66,4 @@ def main():
 
 main()
 print(filename)
+print(final_choice)
