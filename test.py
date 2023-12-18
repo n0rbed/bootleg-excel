@@ -2,7 +2,9 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import norm
+from scipy.stats import multivariate_normal
 import math
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def calc_mean(var_list):
@@ -54,7 +56,7 @@ def graph_polynomial(data_list):
     # add trendline to plot
     plt.plot(x_new, p(x_new))
 
-def graph_normal_distribution(data_list, yx_or_both):
+def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
     x_data = []
     y_data = []
     mean = 0
@@ -66,7 +68,26 @@ def graph_normal_distribution(data_list, yx_or_both):
 
     if yx_or_both == 'yx':
         meanx = calc_mean(x_data)
+        stdevx = calc_stdev(x_data, meanx)
+
         meany = calc_mean(y_data)
+        stdevy = calc_stdev(y_data, meany)
+
+        x = np.linspace((meanx-(4*stdevx)), (meanx+(4*stdevx)), 500)
+        y = np.linspace((meany-(4*stdevy)), (meany+(4*stdevy)), 500)
+        X, Y = np.meshgrid(x, y)
+
+        pos = np.empty(X.shape + (2,))
+        pos[:, :, 0] = X; pos[:, :, 1] = Y
+        rv = multivariate_normal([meanx, meany], [[stdevx, 0], [0, stdevy]])
+
+        # Make a 3D plot
+        fig = plt.figure()
+        ax = fig.add_subplot(projection='3d')
+        ax.plot_surface(X, Y, rv.pdf(pos),cmap='viridis',linewidth=0)
+        ax.set_xlabel(x_title)
+        ax.set_ylabel(y_title)
+        ax.set_zlabel('Probability')
         return
 
     if yx_or_both == 'x':
@@ -102,7 +123,8 @@ with (open('fakedata.csv', 'r') as csvfile):
     data_list.pop(0)
     
     
-    graph_normal_distribution(data_list, 'x')
+    graph_normal_distribution(data_list, 'yx', x_title, y_title)
+
 
 
 
