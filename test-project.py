@@ -16,11 +16,10 @@ def type():
     final_choice = []
     grid = CheckVar2.get()
     scat = CheckVar1.get()
-    if grid != "0":
+    if grid != "":
         final_choice.append(grid)
-    if scat != "0":
+    if scat != "":
         final_choice.append(scat)
-    print(scat)
     print(final_choice)
 
 def upload():
@@ -44,8 +43,8 @@ B.pack()
 
 CheckVar2 = tkinter.StringVar()
 CheckVar1 = tkinter.StringVar()
-A = tkinter.Checkbutton(root, text = "Grid", variable = CheckVar2, onvalue="grid", offvalue="0")
-M = tkinter.Checkbutton(root, text = "scatterplot", variable = CheckVar1, onvalue="scatter", offvalue="0")
+A = tkinter.Checkbutton(root, text = "Grid", variable = CheckVar2, onvalue="grid", offvalue="")
+M = tkinter.Checkbutton(root, text = "scatterplot", variable = CheckVar1, onvalue="scatter", offvalue="")
 
 A.pack()
 M.pack()
