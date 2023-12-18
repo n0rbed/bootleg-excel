@@ -1,5 +1,6 @@
 import csv
 import matplotlib.pyplot as plt
+from matplotlib import style
 import numpy as np
 from scipy.stats import norm
 from scipy.stats import multivariate_normal
@@ -29,17 +30,18 @@ def calc_stdev(var_list, mean):
 def getx_values(data_ls):
     x_list = []
     for xyvalue in data_ls:
-        x_list.append(int(xyvalue[0]))
+        x_list.append(float(xyvalue[0]))
     return x_list
 
 
 def gety_values(data_ls):
     y_list = []
     for xyvalue in data_ls:
-        y_list.append(int(xyvalue[1]))
+        y_list.append(float(xyvalue[1]))
     return y_list
 
-def graph_polynomial(data_list):
+def graph_polynomial(data_list, degree, x_title, y_title):
+
     plt.xlabel(x_title)
     plt.ylabel(y_title)
 
@@ -48,7 +50,7 @@ def graph_polynomial(data_list):
     plt.scatter(x, y)
 
     # calculate equation for the graph (this is a polynomial)
-    z = np.polyfit(x, y, 1)
+    z = np.polyfit(x, y, degree) 
     p = np.poly1d(z)
 
     x_new = np.linspace(x.min(), x.max(), 100)
@@ -63,8 +65,8 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
     stdev = 0
 
     for row in data_list:
-        x_data.append(int(row[0]))
-        y_data.append(int(row[1]))
+        x_data.append(float(row[0]))
+        y_data.append(float(row[1]))
 
     if yx_or_both == 'yx':
         meanx = calc_mean(x_data)
@@ -84,10 +86,13 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
         # Make a 3D plot
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
-        ax.plot_surface(X, Y, rv.pdf(pos),cmap='viridis',linewidth=0)
+        ax.plot_surface(X, Y, rv.pdf(pos),cmap='viridis',linewidth=0, label=f"μx = {meanx}, σx = {round(stdevx, 3)}, μy = {meany}, σy = {round(stdevy, 3)}")
         ax.set_xlabel(x_title)
         ax.set_ylabel(y_title)
         ax.set_zlabel('Probability')
+        plt.legend(loc="upper right")
+
+
         return
 
     if yx_or_both == 'x':
@@ -114,17 +119,18 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
 
     
 
-with (open('fakedata.csv', 'r') as csvfile):
+with (open('fakedata2.csv', 'r') as csvfile):
     csv_reader = csv.reader(csvfile)
     data_list = list(csv_reader)
 
     x_title = data_list[0][0]
     y_title = data_list[0][1]
     data_list.pop(0)
+    plt.style.use('Solarize_Light2')
     
     
-    graph_normal_distribution(data_list, 'yx', x_title, y_title)
 
+    graph_polynomial(data_list, 2, x_title, y_title)
 
 
 
@@ -132,4 +138,3 @@ with (open('fakedata.csv', 'r') as csvfile):
 plt.show()
 
 
-# this is a test to see if github is working
