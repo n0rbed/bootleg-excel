@@ -27,9 +27,9 @@ def calc_stdev(var_list, mean):
     return stdev
 
 
-def getx_values(data_ls):
+def getx_values(data_list):
     x_list = []
-    for xyvalue in data_ls:
+    for xyvalue in data_list:
         x_list.append(float(xyvalue[0]))
     return x_list
 
@@ -119,7 +119,7 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
 
     
 
-with (open('fakedata2.csv', 'r') as csvfile):
+with (open('fakedata.csv', 'r') as csvfile):
     csv_reader = csv.reader(csvfile)
     data_list = list(csv_reader)
 
@@ -130,11 +130,16 @@ with (open('fakedata2.csv', 'r') as csvfile):
     
     
 
-    graph_polynomial(data_list, 2, x_title, y_title)
+    graph_normal_distribution(data_list, 'yx', x_title,y_title)
 
 
 
 
 plt.show()
+
+
+
+
+# add a scatter plot function to modulate the code more
 
 
