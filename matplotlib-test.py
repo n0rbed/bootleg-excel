@@ -59,14 +59,11 @@ def graph_polynomial(data_list, degree, x_title, y_title):
     plt.plot(x_new, p(x_new))
 
 def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
-    x_data = []
-    y_data = []
+    x_data = getx_values(data_list)
+    y_data = gety_values(data_list)
     mean = 0
     stdev = 0
 
-    for row in data_list:
-        x_data.append(float(row[0]))
-        y_data.append(float(row[1]))
 
     if yx_or_both == 'yx':
         meanx = calc_mean(x_data)
@@ -118,6 +115,31 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
 
 
     
+def graph_logarithmic(data_list):
+    x = np.array(getx_values(data_list))
+    y = np.array(gety_values(data_list))
+
+    eq = np.polyfit(np.log(x), y, 1)
+    x_new = np.linspace(x.min(), x.max(), 1000)
+    plt.plot(x_new, (eq[0]*np.log(x_new)) + eq[1])
+
+
+def style(grid, d, x_title, y_title, style_selection, Color):
+    if grid:
+        plt.grid()
+
+    if d == 2:
+        plt.xlabel(x_title)
+        plt.ylabel(y_title)
+
+    plt.style.use(style_selection)
+    plt.gca().get_lines()[0].set_color(Color)
+
+
+
+
+
+
 
 with (open('fakedata.csv', 'r') as csvfile):
     csv_reader = csv.reader(csvfile)
@@ -128,9 +150,10 @@ with (open('fakedata.csv', 'r') as csvfile):
     data_list.pop(0)
     plt.style.use('Solarize_Light2')
     
+    graph_logarithmic(data_list)
+    style(True, 2, x_title, y_title, 'Solarize_Light2', '#000')
     
 
-    graph_normal_distribution(data_list, 'yx', x_title,y_title)
 
 
 
