@@ -24,13 +24,13 @@ def main():
         global final_choice
         final_choice = {'grid': False, 'scatter': False, 'linear': False, 'exponential': False, 'polynomial': False,
                         'logarithmic': False, 'n_distribution': False}
-        grid = CheckVar2.get()
-        scat = CheckVar1.get()
+        grid = CheckVar1.get()
+        scat = CheckVar2.get()
         lin = CheckVar3.get()
         exp = CheckVar4.get()
-        poly = CheckVar3.get()
-        log = CheckVar3.get()
-        ndist = CheckVar3.get()
+        poly = CheckVar5.get()
+        log = CheckVar6.get()
+        ndist = CheckVar7.get()
         if grid != "":
             final_choice['grid'] = True
         if scat != "":
@@ -140,8 +140,8 @@ def main():
     CheckVar5 = tkinter.StringVar()
     CheckVar6 = tkinter.StringVar()
     CheckVar7 = tkinter.StringVar()
-    grid_checkbox = tkinter.Checkbutton(root, text="Grid", variable=CheckVar2, onvalue="grid", offvalue="")
-    scatter_checkbox = tkinter.Checkbutton(root, text="scatterplot", variable=CheckVar1, onvalue="scatter", offvalue="")
+    grid_checkbox = tkinter.Checkbutton(root, text="Grid", variable=CheckVar1, onvalue="grid", offvalue="")
+    scatter_checkbox = tkinter.Checkbutton(root, text="scatterplot", variable=CheckVar2, onvalue="scatter", offvalue="")
     linear_checkbox = tkinter.Checkbutton(root, text="linear", variable=CheckVar3, onvalue="linear", offvalue="",
                                           command=des_lin)
     exponential_checkbox = tkinter.Checkbutton(root, text="exponential", variable=CheckVar4, onvalue="exponential",
