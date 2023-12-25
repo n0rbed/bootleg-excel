@@ -182,7 +182,10 @@ def main():
 
     def get_pol_degree():
         global pol_deg
-        pol_deg = degree.get()
+        try:
+            pol_deg = int(degree.get())
+        except ValueError:
+            print('Please enter a valid integer')
         return pol_deg
 
     options = ['dashed', 'solid']
@@ -218,6 +221,7 @@ print(Gname)
 print(style_selection)
 print(ndist_axis)
 print(Color)
+print(pol_deg)
 
 
 def calc_mean(var_list):
@@ -252,14 +256,12 @@ def gety_values(data_ls):
         y_list.append(float(xyvalue[1]))
     return y_list
 
-def graph_polynomial(data_list, degree, x_title, y_title):
-
-    plt.xlabel(x_title)
-    plt.ylabel(y_title)
-
+def graph_polynomial(data_list, degree):
     x = np.array(getx_values(data_list))
     y = np.array(gety_values(data_list))
-    plt.scatter(x, y)
+
+    if final_choice['scatter']:
+        plt.scatter(x, y)
 
     # calculate equation for the graph (this is a polynomial)
     z = np.polyfit(x, y, degree) 
@@ -280,7 +282,7 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
         x_data.append(float(row[0]))
         y_data.append(float(row[1]))
 
-    if yx_or_both == 'yx':
+    if yx_or_both == 'both':
         meanx = calc_mean(x_data)
         stdevx = calc_stdev(x_data, meanx)
 
@@ -307,11 +309,11 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
 
         return
 
-    if yx_or_both == 'x':
+    if yx_or_both == 'x-axis':
         mean += calc_mean(x_data)
         stdev += calc_stdev(x_data, mean)
 
-    elif yx_or_both == 'y':
+    elif yx_or_both == 'y-axis':
         mean += calc_mean(y_data)
         stdev += calc_stdev(y_data, mean)
 
@@ -323,6 +325,10 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
     x = np.linspace(start, end, 1000)
     prob = norm.pdf(x, mean, stdev)
 
+
+    if final_choice['scatter']:
+        plt.scatter(x_data, norm.pdf(x_data, mean, stdev))
+
     # plotting the results
     plt.plot(x, prob, label=f"μ = {mean}, σ = {round(stdev, 3)}")
     plt.legend()
@@ -333,12 +339,31 @@ def graph_logarithmic(data_list):
     x = np.array(getx_values(data_list))
     y = np.array(gety_values(data_list))
 
+    if final_choice['scatter']:
+        plt.scatter(x, y)
+
     eq = np.polyfit(np.log(x), y, 1)
     x_new = np.linspace(x.min(), x.max(), 1000)
     plt.plot(x_new, (eq[0]*np.log(x_new)) + eq[1])
 
+   
 
- def style(grid, d, x_title, y_title, style_selection, Color):
+
+def graph_exponential(data_list):
+    x = np.array(getx_values(data_list))
+    y = np.array(gety_values(data_list))
+
+    if final_choice['scatter']:
+        plt.scatter(x, y)
+
+    eq = np.polyfit(x, np.log(y), 1, w=np.sqrt(y))
+
+    x_new = np.linspace(x.min(), x.max(), 1000)
+
+    plt.plot(x_new, (np.exp(eq[1]))*np.exp(x_new*eq[0]))
+
+
+def style(grid, d, x_title, y_title, style_selection, Color):
     if grid:
         plt.grid()
 
@@ -348,7 +373,10 @@ def graph_logarithmic(data_list):
 
     plt.style.use(style_selection)
     plt.gca().get_lines()[0].set_color(Color)
-   
+
+    plt.xlabel(x_title)
+    plt.ylabel(y_title)
+    plt.title(Gname)
 
 with (open(filename, 'r') as csvfile):
     csv_reader = csv.reader(csvfile)
@@ -362,12 +390,36 @@ with (open(filename, 'r') as csvfile):
     grid = False
     scatter = False
 
-    list_of_functions = [grid, scatter, graph_polynomial,]
 
     if final_choice['grid'] == True:
         grid = True
     if final_choice['scatter'] == True:
         scatter = True
+
+    if final_choice['linear'] == True:
+        graph_polynomial(data_list, 1)
+        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+
+    if final_choice['logarithmic'] == True:
+        graph_logarithmic(data_list)
+        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+
+
+    if final_choice['exponential'] == True:
+        graph_exponential(data_list)
+        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+
+
+    if final_choice['polynomial'] == True:
+        graph_polynomial(data_list, pol_deg)
+        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+
+    if final_choice['n_distribution'] == True:
+        graph_normal_distribution(data_list, ndist_axis, x_title, y_title)
+
+
+
+    
 
     
 
