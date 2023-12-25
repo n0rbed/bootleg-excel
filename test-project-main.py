@@ -186,7 +186,7 @@ def main():
             pol_deg = int(degree.get())
         except ValueError:
             print('Please enter a valid integer')
-        return pol_deg
+        return
 
     options = ['dashed', 'solid']
 
@@ -215,13 +215,12 @@ def main():
 
 
 main()
-print(filename)
-print(final_choice)
-print(Gname)
-print(style_selection)
-print(ndist_axis)
-print(Color)
-print(pol_deg)
+#print(filename)
+#print(final_choice)
+#print(Gname)
+#print(style_selection)
+#print(ndist_axis)
+#print(Color)
 
 
 def calc_mean(var_list):
