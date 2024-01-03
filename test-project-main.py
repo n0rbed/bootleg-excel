@@ -268,6 +268,8 @@ def graph_polynomial(data_list, degree):
 
     x_new = np.linspace(x.min(), x.max(), 100)
 
+
+
     # add trendline to plot
     plt.plot(x_new, p(x_new))
 
@@ -303,6 +305,8 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
         ax.set_xlabel(x_title)
         ax.set_ylabel(y_title)
         ax.set_zlabel('Probability')
+        if final_choice['grid']:
+            ax.grid(b=True, which='major', linestyle='-')
         plt.legend(loc="upper right")
 
 
@@ -362,13 +366,11 @@ def graph_exponential(data_list):
     plt.plot(x_new, (np.exp(eq[1]))*np.exp(x_new*eq[0]))
 
 
-def style(grid, d, x_title, y_title, style_selection, Color):
-    if grid:
-        plt.grid()
-
+def style(d, x_title, y_title, style_selection, Color):
     if d == 2:
         plt.xlabel(x_title)
         plt.ylabel(y_title)
+        plt.grid(visible=final_choice['grid'], which='major')
 
     plt.style.use(style_selection)
     plt.gca().get_lines()[0].set_color(Color)
@@ -386,54 +388,28 @@ with (open(filename, 'r') as csvfile):
     data_list.pop(0)
     plt.style.use('Solarize_Light2')
 
-    grid = False
-    scatter = False
+    scatter = final_choice['scatter']
 
-
-    if final_choice['grid'] == True:
-        grid = True
-    if final_choice['scatter'] == True:
-        scatter = True
-
-    if final_choice['linear'] == True:
+    if final_choice['linear']:
         graph_polynomial(data_list, 1)
-        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+        style(2, x_title, y_title, 'Solarize_Light2', Color)
 
-    if final_choice['logarithmic'] == True:
+    if final_choice['logarithmic']:
         graph_logarithmic(data_list)
-        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+        style(2, x_title, y_title, 'Solarize_Light2', Color)
 
 
-    if final_choice['exponential'] == True:
+    if final_choice['exponential']:
         graph_exponential(data_list)
-        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+        style(2, x_title, y_title, 'Solarize_Light2', Color)
 
 
-    if final_choice['polynomial'] == True:
+    if final_choice['polynomial']:
         graph_polynomial(data_list, pol_deg)
-        style(grid, 2, x_title, y_title, 'Solarize_Light2', Color)
+        style(2, x_title, y_title, 'Solarize_Light2', Color)
 
-    if final_choice['n_distribution'] == True:
+    if final_choice['n_distribution']:
         graph_normal_distribution(data_list, ndist_axis, x_title, y_title)
-
-
-
-    
-
-    
-
-
-
-
-
-
-
-
-    
-    
-
-
-
 
 
 plt.show()
