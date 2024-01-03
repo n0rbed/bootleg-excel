@@ -218,7 +218,7 @@ main()
 #print(filename)
 #print(final_choice)
 #print(Gname)
-#print(style_selection)
+print(style_selection)
 #print(ndist_axis)
 #print(Color)
 
@@ -271,7 +271,7 @@ def graph_polynomial(data_list, degree):
 
 
     # add trendline to plot
-    plt.plot(x_new, p(x_new))
+    plt.plot(x_new, p(x_new), linestyle=style_selection)
 
 def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
     x_data = []
@@ -333,7 +333,7 @@ def graph_normal_distribution(data_list, yx_or_both, x_title, y_title):
         plt.scatter(x_data, norm.pdf(x_data, mean, stdev))
 
     # plotting the results
-    plt.plot(x, prob, label=f"μ = {mean}, σ = {round(stdev, 3)}")
+    plt.plot(x, prob, linestyle=style_selection, label=f"μ = {mean}, σ = {round(stdev, 3)}")
     plt.legend()
     plt.axvline(mean, ls='--', color='lightgray')
 
@@ -347,7 +347,7 @@ def graph_logarithmic(data_list):
 
     eq = np.polyfit(np.log(x), y, 1)
     x_new = np.linspace(x.min(), x.max(), 1000)
-    plt.plot(x_new, (eq[0]*np.log(x_new)) + eq[1])
+    plt.plot(x_new, (((eq[0]*np.log(x_new)) + eq[1])), linestyle=style_selection)
 
    
 
@@ -363,7 +363,7 @@ def graph_exponential(data_list):
 
     x_new = np.linspace(x.min(), x.max(), 1000)
 
-    plt.plot(x_new, (np.exp(eq[1]))*np.exp(x_new*eq[0]))
+    plt.plot(x_new, ((np.exp(eq[1]))*np.exp(x_new*eq[0])), linestyle=style_selection)
 
 
 def style(d, x_title, y_title, style_selection, Color):
@@ -416,7 +416,11 @@ plt.show()
 
 
 
+# To do list:
+# move all the functions at the beginning of the code, then run the "main code" seperatly as your
+#TA told you
+# make the program write the equation it graphed, the mean, median and the mode of each column of
+# data into a file seperate from the csv the user inputted
 
-# add a scatter plot function to modulate the code more
 
 
