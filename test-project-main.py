@@ -73,16 +73,23 @@ def main():
 
     def validate():
         # some required fields checked
-        if Gname_input.get() == '' and (not filename):
+        if Gname_input.get() == '' or filename == '':
+            tkinter.messagebox.showwarning("Error", "missing fields")
             # if final_choice['linear'] == True or final_choice['exponential'] == True or final_choice[
             #     'polynomial'] == True or final_choice['logarithmic'] == True or final_choice['n_distribution'] == True:
-            tkinter.messagebox.showwarning("Error", "missing fields")
         else:
             store_Gname()
             graph_type()
             get_selection()
-            get_pol_degree()
-            choose_ndist_asix()
+
+            # if pol selected:
+            if final_choice['polynomial']:
+                get_pol_degree()
+
+            # if ndist is selected:
+            if final_choice['n_distribution']:
+                choose_ndist_asix()
+
             root.destroy()
             global Color
             Color = col1
@@ -218,9 +225,8 @@ main()
 #print(filename)
 #print(final_choice)
 #print(Gname)
-print(style_selection)
-#print(ndist_axis)
 #print(Color)
+#print(ndist_axis)
 
 
 def calc_mean(var_list):
