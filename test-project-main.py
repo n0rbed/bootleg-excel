@@ -15,7 +15,7 @@ from scipy.stats import multivariate_normal
 import math
 from mpl_toolkits.mplot3d import Axes3D
 
-
+filename = None
 
 def main():
     root = tkinter.Tk()
@@ -26,7 +26,6 @@ def main():
 
     tkinter.Label(root, text="graph name").pack()
 
-    filename = None
 
     def store_Gname():
         global Gname
@@ -73,7 +72,7 @@ def main():
 
     def validate():
         # some required fields checked
-        if Gname_input.get() == '' or filename == '':
+        if Gname_input.get() == '' or filename == None:
             tkinter.messagebox.showwarning("Error", "missing fields")
             # if final_choice['linear'] == True or final_choice['exponential'] == True or final_choice[
             #     'polynomial'] == True or final_choice['logarithmic'] == True or final_choice['n_distribution'] == True:
