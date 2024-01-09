@@ -57,7 +57,10 @@ def graph_polynomial(data_list, degree):
     z = np.polyfit(x, y, degree)
     p = np.poly1d(z)
 
-    x_new = np.linspace(x.min(), x.max(), 100)
+    x_min = x.min() - ((x.max() - x.min()) / 2)
+    x_max = x.max() + ((x.max() - x.min()) / 2)
+
+    x_new = np.linspace(x_min, x_max, 1000)
     # add trendline to plot
     plt.plot(x_new, p(x_new), linestyle=style_selection)
 
@@ -164,7 +167,11 @@ def graph_exponential(data_list):
 
     eq = np.polyfit(x, np.log(y), 1, w=np.sqrt(y))
 
-    x_new = np.linspace(x.min(), x.max(), 1000)
+    x_min = x.min() - ((x.max() - x.min()) / 2)
+    x_max = x.max() + ((x.max() - x.min()) / 2)
+
+
+    x_new = np.linspace(x_min, x_max, 1000)
     plt.plot(x_new, ((np.exp(eq[1]))*np.exp(x_new*eq[0])), linestyle=style_selection)
 
     equation = f'y = {round(np.exp(eq[1]), 3)} * e^(x*{round(eq[0],3)})'
