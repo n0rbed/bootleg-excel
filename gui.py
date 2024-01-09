@@ -120,18 +120,21 @@ def choose_color_1():
         col1 = str(color_code[1])
 
 def validate():
-    x = 0
-    for item in final_choice:
-        x += final_choice[item]
-
     graph_type()
+    check = False
+    for bool in final_choice.values():
+        if bool == True:
+            check = True
+
+
+    get_selection()
     # some required fields checked
-    if Gname_input.get() == '' or filename == None or selection_box.get() == '' or x == 0 or col1 == '':
+    if Gname_input.get() == '' or filename == None or style_selection == '' or check == False or col1 == '':
         tkinter.messagebox.showwarning("Error", "missing fields")
         return
     else:
         store_Gname()
-        get_selection()
+
 
         # if pol selected:
         if final_choice['polynomial']:
@@ -141,10 +144,9 @@ def validate():
         if final_choice['n_distribution']:
             choose_ndist_asix()
 
-        root.destroy()
         global color
         color = col1
-
+        root.destroy()
 def maintk():
     global root
     global grid_checkbox
