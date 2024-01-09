@@ -179,8 +179,6 @@ def style(d, x_title, y_title, style_t, Color):
     plt.style.use(style_t)
     plt.gca().get_lines()[0].set_color(Color)
 
-    plt.xlabel(x_title)
-    plt.ylabel(y_title)
     plt.title(gname)
 
 

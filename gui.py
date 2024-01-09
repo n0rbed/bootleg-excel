@@ -120,18 +120,18 @@ def choose_color_1():
         col1 = str(color_code[1])
 
 def validate():
-    get_selection()
+    x = 0
+    for item in final_choice:
+        x += final_choice[item]
 
+    graph_type()
     # some required fields checked
-    if Gname_input.get() == '' or filename == None or style_selection == None:
+    if Gname_input.get() == '' or filename == None or selection_box.get() == '' or x == 0 or col1 == '':
         tkinter.messagebox.showwarning("Error", "missing fields")
         return
-        # if final_choice['linear'] == True or final_choice['exponential'] == True or final_choice[
-        #     'polynomial'] == True or final_choice['logarithmic'] == True or final_choice['n_distribution'] == True:
-
     else:
         store_Gname()
-        graph_type()
+        get_selection()
 
         # if pol selected:
         if final_choice['polynomial']:
